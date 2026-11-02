@@ -1,6 +1,6 @@
 # Thary Vireak — QA Command Center
 
-A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, Vite, and Lucide React. It presents case studies, filterable manual test specifications, expandable defect evidence, requirements traceability, and an interactive REST API response viewer.
+A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, Vite, and Lucide React. It presents QA case studies, public project repositories, academic lab work, and a contact section.
 
 ## Sections
 
@@ -9,15 +9,12 @@ A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, 
 | – | Hero | Profile, headline metrics (animated count-up), release-readiness console |
 | 01 | Work | QA case-study explorer and linked public GitHub repositories |
 | 02 | SETEC Lab | Academic capstone, SRS / acceptance-criteria showcase, lab architecture |
-| 03 | Test cases | Searchable, filterable test specifications (cards on mobile) |
-| 04 | Defects | Expandable defect reports with environment, steps, and evidence |
-| 05 | Traceability | Requirement → test case → endpoint map and REST API contract viewer |
-| 06 | About | Experience, skills, CV download, and contact (email and Telegram) |
+| 03 | About | Experience, skills, CV download, and contact (email and Telegram) |
 
 ## Features
 
 - **Animation:** scroll reveals, count-up metrics, hero entrance, magnetic buttons with click ripple, cursor glow, and an animated network/glow/grid background. All motion is disabled for visitors with `prefers-reduced-motion`.
-- **Responsive:** on screens 680px and narrower, the test-case and traceability tables switch to stacked cards.
+- **Responsive:** layouts adapt down to phone width.
 - **Light and dark** theme colors, with the background canvas reading the theme palette.
 
 ## Project structure
@@ -25,8 +22,8 @@ A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, 
 ```
 src/
   App.tsx       Components, scroll/pointer hooks, animated background
-  data.ts       Projects, test cases, defects, traceability, API checks, skills
-  styles.css    Styles, including the motion, button, and mobile-card layers
+  data.ts       Projects, GitHub repositories, skills
+  styles.css    Styles, including the motion, button, and and mobile layers
   main.tsx      Entry point
 public/
   PF3-web.jpg           Hero portrait (optimized copy of PF3.jpg)
@@ -53,7 +50,7 @@ npm run preview  # serve the built site locally
 
 ## Updating content
 
-- **Test cases, defects, projects, traceability:** edit `src/data.ts`.
+- **Projects, repositories, skills:** edit `src/data.ts`.
 - **CV:** replace `public/Thary_Vireak_CV.pdf`, keeping the file name.
 - **Contact links:** email and Telegram (`https://t.me/reak6c`) are in the `About` component in `src/App.tsx`.
 - **Portrait:** replace `public/PF3-web.jpg`. The crop is set at the end of `src/styles.css`.

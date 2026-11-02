@@ -1,23 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
-  Activity, ArrowDownRight, ArrowRight, ArrowUpRight, BadgeCheck, BellRing, BriefcaseBusiness,
-  Bug, Check, CheckCheck, ChevronDown, ChevronRight, CircleHelp, Clipboard, Clock3, Code2,
-  Copy, Download, ExternalLink, FileCheck2, Filter, Fingerprint, FlaskConical, GitBranch,
-  GraduationCap, Globe, Layers3, MapPin, Menu, Search, ShieldCheck, Smartphone, TerminalSquare,
+  Activity, ArrowDownRight, ArrowRight, ArrowUpRight, BellRing, BriefcaseBusiness,
+  Bug, Check, CheckCheck, ChevronRight, Clock3, Code2,
+  Copy, Download, ExternalLink, FileCheck2, Fingerprint, FlaskConical, GitBranch,
+  GraduationCap, Globe, Layers3, MapPin, Menu, ShieldCheck, Smartphone,
   X,
 } from 'lucide-react';
-import { apiChecks, bugs, githubProjects, projects, skills, stack, testCases, traceability, type TestCategory } from './data';
+import { githubProjects, projects, skills, stack } from './data';
 
-type FilterCategory = 'All' | TestCategory;
-const filters: FilterCategory[] = ['All', 'Positive', 'Negative', 'Boundary Value / Edge Case', 'Mobile Interrupt'];
 const navItems = [
-  ['Work', '#work'], ['Academic Experience', '#academic-experience'], ['Test cases', '#test-cases'], ['Defects', '#defects'], ['Traceability', '#traceability'], ['About', '#about'],
+  ['Work', '#work'], ['Academic Experience', '#academic-experience'], ['About', '#about'],
 ] as const;
-const caseStatusCounts = {
-  PASS: testCases.filter((test) => test.status === 'PASS').length,
-  FAIL: testCases.filter((test) => test.status === 'FAIL').length,
-  BLOCKED: testCases.filter((test) => test.status === 'BLOCKED').length,
-};
 
 function useScrollReveals() {
   useEffect(() => {
@@ -317,7 +310,7 @@ function Hero() {
           <p className="hero-lede">I’m <strong>Thary Vireak</strong> <span className="khmer">ថារី វីរៈ</span> — a QA Engineer turning real-world product risk into reproducible, release-ready evidence.</p>
           <p className="hero-role">Manual QA <i /> iOS TestFlight <i /> Web & API</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#test-cases">Explore test evidence <ArrowDownRight size={16} /></a>
+            <a className="button button-primary" href="#work">Explore QA work <ArrowDownRight size={16} /></a>
             <a className="button button-quiet" href="#about">Contact Thary <ArrowRight size={15} /></a>
           </div>
           <div className="hero-meta"><span><MapPin size={13} /> Phnom Penh, Cambodia</span><span className="meta-divider" /><span><Activity size={13} /> Available for QA opportunities</span></div>
@@ -366,7 +359,6 @@ function ProjectExplorer() {
           <div className="scope-label"><span>VALIDATION SCOPE</span><span className="scope-line" /></div>
           <div className="scope-tags">{project.scope.map((item) => <span key={item}><Check size={12} />{item}</span>)}</div>
           <div className="project-highlight"><span className="highlight-icon"><Fingerprint size={15} /></span><div><small>TESTING HIGHLIGHT</small><p>{project.highlight}</p></div></div>
-          <a className="text-link" href="#test-cases">Inspect linked test cases <ArrowRight size={14} /></a>
         </article>
       </div>
       <div className="repo-section">
@@ -473,79 +465,6 @@ function AcademicCapstone() {
   );
 }
 
-function TestCaseExplorer() {
-  const [filter, setFilter] = useState<FilterCategory>('All');
-  const [query, setQuery] = useState('');
-  const filtered = useMemo(() => testCases.filter((test) => {
-    const matchesFilter = filter === 'All' || test.category === filter;
-    const searchable = [test.id, test.module, test.objective, test.preconditions, test.expected, test.actual].join(' ').toLowerCase();
-    return matchesFilter && searchable.includes(query.toLowerCase().trim());
-  }), [filter, query]);
-  return (
-    <section className="section-wrap content-section" id="test-cases">
-      <SectionHeading number="03" kicker="SPECIFICATION LIBRARY" title="Every result has a reason." description="Filter and search a sample of structured manual test evidence. Each row carries the setup, steps, and outcome—not just a green check." />
-      <div className="table-shell reveal">
-        <div className="table-toolbar"><div className="toolbar-title"><span className="toolbar-icon"><Clipboard size={15} /></span><div><strong>Test case specifications</strong><span>Showing {filtered.length} of {testCases.length} records</span></div></div><label className="search-field"><Search size={14} /><input aria-label="Search test cases" placeholder="Search case, module, scenario…" value={query} onChange={(event) => setQuery(event.target.value)} /><kbd>⌘ K</kbd></label></div>
-        <div className="filter-row"><span className="filter-label"><Filter size={13} /> FILTER BY</span>{filters.map((item) => <button key={item} className={filter === item ? 'filter-chip active' : 'filter-chip'} onClick={() => setFilter(item)}>{item}</button>)}</div>
-        <div className="table-scroll"><table className="test-table"><thead><tr><th>TC_ID / MODULE</th><th>TEST SCENARIO & OBJECTIVE</th><th>PRECONDITIONS</th><th>TEST STEPS</th><th>EXPECTED RESULT</th><th>ACTUAL RESULT</th><th>STATUS</th></tr></thead><tbody>
-          {filtered.map((test) => <tr key={test.id}><td><span className="case-id">{test.id}</span><span className="case-module">{test.module}</span><span className="case-category">{test.category}</span></td><td className="objective-cell" data-label="Scenario & objective">{test.objective}</td><td data-label="Preconditions">{test.preconditions}</td><td data-label="Test steps"><ol className="steps-list">{test.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>)}</ol></td><td data-label="Expected result">{test.expected}</td><td data-label="Actual result">{test.actual}</td><td className="status-cell" data-label="Status"><StatusBadge status={test.status} /></td></tr>)}
-          {filtered.length === 0 && <tr><td colSpan={7} className="empty-state"><CircleHelp size={17} />No cases match those filters. Try another query.</td></tr>}
-        </tbody></table></div>
-        <div className="table-footer"><span><span className="status-dot dot-pass" />PASS <strong>{String(caseStatusCounts.PASS).padStart(2, '0')}</strong></span><span><span className="status-dot dot-fail" />FAIL <strong>{String(caseStatusCounts.FAIL).padStart(2, '0')}</strong></span><span><span className="status-dot dot-blocked" />BLOCKED <strong>{String(caseStatusCounts.BLOCKED).padStart(2, '0')}</strong></span><span className="mono">LAST RUN · 2026-10-31 16:42 ICT</span></div>
-      </div>
-    </section>
-  );
-}
-
-function DefectInspector() {
-  const [openBug, setOpenBug] = useState<string | null>(bugs[0].id);
-  return (
-    <section className="section-wrap content-section" id="defects">
-      <SectionHeading number="04" kicker="DEFECT TRIAGE" title="A bug report should reproduce." description="Open a finding to inspect its environment, reproduction path, impact, and the evidence handed to engineering." />
-      <div className="defect-list">
-        {bugs.map((bug, index) => {
-          const isOpen = openBug === bug.id;
-          return <article className="defect-card reveal" data-open={isOpen} key={bug.id} style={{ transitionDelay: `${index * 70}ms` }}>
-            <button className="defect-summary" aria-expanded={isOpen} onClick={() => setOpenBug(isOpen ? null : bug.id)}>
-              <span className="bug-index">0{index + 1}</span><span className="bug-main"><span className="bug-id mono">{bug.id}</span><strong>{bug.title}</strong><span className="bug-module">{bug.module}</span></span><span className="severity-pill severity-high">{bug.severity}</span><span className="priority-pill">{bug.priority}</span><StatusBadge status={bug.status} /><span className="defect-chevron">{isOpen ? <ChevronDown size={17} /> : <ChevronRight size={17} />}</span>
-            </button>
-            {isOpen && <div className="defect-body"><div className="defect-intro"><div><span className="field-label">ENVIRONMENT</span><span className="env-badge"><Smartphone size={13} />{bug.environment}</span></div><p>{bug.summary}</p></div><div className="defect-columns"><div className="repro-block"><span className="field-label">STEPS TO REPRODUCE</span><ol>{bug.steps.map((step) => <li key={step}>{step}</li>)}</ol><div className="expected-actual"><div><span className="field-label">EXPECTED</span><p>{bug.expected}</p></div><div><span className="field-label field-danger">ACTUAL</span><p>{bug.actual}</p></div></div></div><div className="evidence-block"><div className="evidence-head"><span><TerminalSquare size={13} /> ROOT CAUSE / DEVTOOLS</span><span className="evidence-language">JSON · HTTP</span></div><p className="root-cause">{bug.rootCause}</p><pre><code>{bug.payload}</code></pre><button className="copy-payload" onClick={() => void navigator.clipboard?.writeText(bug.payload)}><Copy size={12} />Copy evidence</button></div></div></div>}
-          </article>;
-        })}
-      </div>
-    </section>
-  );
-}
-
-function ApiShowcase() {
-  const [active, setActive] = useState(0);
-  const check = apiChecks[active];
-  return (
-    <section className="section-wrap content-section" id="traceability">
-      <SectionHeading number="05" kicker="COVERAGE & CONTRACTS" title="Requirements linked to evidence." description="A traceable line from business rule to executable case to endpoint. API contracts are checked for response codes and schema—not just reachability." />
-      <div className="trace-layout reveal">
-        <div className="trace-card">
-          <div className="trace-card-head">
-            <div><span className="table-kicker">COVERAGE MAP</span><h3>Requirements traceability</h3></div>
-            <span className="coverage-total"><BadgeCheck size={14} />100% mapped</span>
-          </div>
-          <div className="trace-scroll">
-            <table className="trace-table">
-              <thead><tr><th>BUSINESS REQ.</th><th>USER STORY / RULE</th><th>MAPPED TEST CASES</th><th>API ENDPOINT TESTED</th><th>COVERAGE</th></tr></thead>
-              <tbody>{traceability.map((row) => <tr key={row.id}>
-                <td className="mono req-id">{row.id}</td><td data-label="Rule">{row.rule}</td><td className="mono mapped-cases" data-label="Test cases">{row.cases}</td><td className="mono endpoint" data-label="Endpoint">{row.endpoint}</td>
-                <td data-label="Coverage"><span className="coverage-cell"><span className="coverage-track" aria-hidden="true"><span className="coverage-fill" /></span><span className="coverage-value">{row.coverage}</span></span></td>
-              </tr>)}</tbody>
-            </table>
-          </div>
-          <div className="trace-foot"><span><CheckCheck size={13} /> Requirement-to-test linkage maintained</span><span className="mono">{traceability.length} / {traceability.length} REQUIREMENTS</span></div>
-        </div>
-        <div className="api-card"><div className="api-card-head"><div className="postman-mark"><Code2 size={14} /></div><div><span className="table-kicker">CONTRACT CHECK</span><h3>REST API validation</h3></div><span className="api-live"><span className="pulse-dot" />QA RUN</span></div><div className="api-tabs">{apiChecks.map((item, index) => <button key={item.code} className={active === index ? `api-tab active api-${item.tone}` : 'api-tab'} onClick={() => setActive(index)}><strong>{item.code}</strong><span>{item.label}</span></button>)}</div><div className="api-endpoint"><span className="http-method">{active === 1 ? 'GET' : 'POST'}</span><code>{check.endpoint}</code><ExternalLink size={12} /></div><p className="api-description">{check.description}</p><pre className={`api-response api-response-${check.tone}`}><div><span>RESPONSE BODY</span><span>application/json</span></div><code>{check.body}</code></pre><div className="schema-check"><span><Check size={12} />Schema assertions</span><span className="mono">{active === 0 ? '3 / 3 PASS' : active === 1 ? '2 / 2 PASS' : '2 / 2 PASS'}</span></div></div>
-      </div>
-    </section>
-  );
-}
-
 function About() {
   const [copied, setCopied] = useState(false);
   const copyEmail = async () => {
@@ -559,7 +478,7 @@ function About() {
   };
   return (
     <section className="section-wrap content-section about-section" id="about">
-      <SectionHeading number="06" kicker="BACKGROUND / CONTACT" title="Careful by practice. Curious by design." description="A systems mindset, a documented process, and the patience to follow a defect until it is understood." />
+      <SectionHeading number="03" kicker="BACKGROUND / CONTACT" title="Careful by practice. Curious by design." description="A systems mindset, a documented process, and the patience to follow a defect until it is understood." />
       <div className="about-grid reveal"><div className="timeline-panel"><div className="panel-heading"><span className="panel-icon"><BriefcaseBusiness size={15} /></span><div><span className="table-kicker">EXPERIENCE & EDUCATION</span><h3>What I bring to the team</h3></div></div><div className="timeline"><article className="timeline-item"><span className="timeline-node node-active"><BriefcaseBusiness size={13} /></span><div className="timeline-content"><div className="timeline-meta"><span>QA ENGINEER</span><span>PRODUCT DELIVERY</span></div><h4>CheckinMe</h4><p>Mobile, web, and API manual testing across HR, attendance, employee benefits, and push notifications. Build regression, defect triage, and release sign-off.</p><div className="timeline-tags"><span>TestFlight</span><span>Regression</span><span>Postman</span></div></div></article><article className="timeline-item"><span className="timeline-node"><GraduationCap size={14} /></span><div className="timeline-content"><div className="timeline-meta"><span>BACHELOR’S DEGREE</span><span>GROUP SU20</span></div><h4>SETEC Institute</h4><p>Bachelor of Management Information Systems (MIS). Completed a 16-week internship and academic thesis.</p><div className="timeline-tags"><span>Information systems</span><span>16-week internship</span></div></div></article></div><div className="skills-section"><span className="field-label">CORE QA PRACTICE</span><div className="skill-chips">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div><span className="field-label stack-label">TECHNICAL FLUENCY</span><div className="stack-list">{stack.map((item) => <span key={item}>{item}</span>)}</div></div></div>
         <aside className="contact-panel"><div className="contact-topline"><span className="contact-orbit"><span /></span><span className="table-kicker">DIRECT LINE</span><span className="contact-availability"><span className="pulse-dot" />OPEN TO WORK</span></div><h3>Let’s make the<br /><span>next release</span> reliable.</h3><p>If you’re building a product that deserves a closer look, I’d like to help test it.</p><a className="contact-email" href="mailto:tharyvireak161@gmail.com">tharyvireak161@gmail.com <ArrowUpRight size={14} /></a><button className="copy-email" onClick={() => void copyEmail()}>{copied ? <Check size={13} /> : <Copy size={13} />}{copied ? 'Email copied' : 'Copy email address'}</button><div className="contact-facts"><span><Smartphone size={13} />071 675 5350</span><span><MapPin size={13} />Phnom Penh, Cambodia</span></div><div className="contact-actions"><a className="button button-primary" href="https://t.me/reak6c" target="_blank" rel="noopener noreferrer">Start a conversation <ArrowUpRight size={15} /></a><a className="button button-outline" href="/Thary_Vireak_CV.pdf" download="Thary_Vireak_CV.pdf"><Download size={14} />Download CV</a></div><small className="download-note">Full CV in PDF format.</small></aside></div>
     </section>
@@ -574,5 +493,5 @@ export default function App() {
   useScrollReveals();
   usePageProgress();
   usePointerEffects();
-  return <><AnimatedBackground /><div className="cursor-glow" aria-hidden="true" /><Header /><main><Hero /><ProjectExplorer /><AcademicCapstone /><TestCaseExplorer /><DefectInspector /><ApiShowcase /><About /></main><Footer /></>;
+  return <><AnimatedBackground /><div className="cursor-glow" aria-hidden="true" /><Header /><main><Hero /><ProjectExplorer /><AcademicCapstone /><About /></main><Footer /></>;
 }
