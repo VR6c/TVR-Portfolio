@@ -1,8 +1,8 @@
-# TODO — Thary Vireak QA Command Center
+# TODO — Thary Vireak Portfolio
 
 ## 1. Profile, sticky navigation, and QA Status hero — Complete
 - Build a modern, interactive, single-page “QA Engineer & Manual Testing Portfolio” for Thary Vireak (ថារី វីរៈ), a QA Engineer based in Phnom Penh, Cambodia, using React, Tailwind CSS, and Lucide React icons.
-- Use an interactive QA Command Center / Test Management Dashboard visual direction inspired by Linear, TestRail, and GitHub Dark Mode rather than a generic developer template.
+- Use an interactive Portfolio / Test Management Dashboard visual direction inspired by Linear, TestRail, and GitHub Dark Mode rather than a generic developer template.
 - Include sticky navigation with section links, a green pulse badge reading “System Status: All Release Checks Passing”, and a “Download CV / Contact” call to action.
 - Introduce Thary Vireak and show role “Quality Assurance (QA) Engineer | Mobile (TestFlight), Web & API Manual Testing” and location Phnom Penh, Cambodia.
 - Include the profile portrait supplied by the user in the hero, cropped to keep the face visible and accompanied by descriptive alt text.

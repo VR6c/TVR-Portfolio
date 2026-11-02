@@ -1,1 +1,8 @@
-{"routes":[{"path":"/","title":"Thary Vireak — QA Command Center"}]}
+{
+    "routes": [
+        {
+            "path": "/",
+            "title": "Thary Vireak — Portfolio"
+        }
+    ]
+}

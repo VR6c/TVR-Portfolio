@@ -1,4 +1,4 @@
-# Thary Vireak — QA Command Center
+# Thary Vireak — Portfolio
 
 A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, Vite, and Lucide React. It presents QA case studies, public project repositories and a contact section.
 
