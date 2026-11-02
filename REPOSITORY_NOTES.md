@@ -31,3 +31,9 @@ Sources: [Repository](https://github.com/VR6c/Service-System), [SRS document](ht
 The README describes a staff lunch-ordering system combining a Telegram bot with a React/Vite web administration dashboard. Documented areas include staff registration and lunch ordering, admin-side staff and manual-order management, and branch reports. The frontend and backend manifests corroborate the React/Vite and Node/Express/Telegraf/Mongoose stack. The visible GitHub owner is `Phanit009`; repository content does not establish Thary's authorship or QA work.
 
 Sources: [Repository](https://github.com/Phanit009/Order_Lunch), [backend package.json](https://github.com/Phanit009/Order_Lunch/blob/main/backend/package.json), [frontend package.json](https://github.com/Phanit009/Order_Lunch/blob/main/frontend/package.json).
+
+## Downloader — VR6c
+
+The README describes TVR Studio, an Electron + React 19 + TypeScript desktop suite for macOS and Windows with a Python core (`yt-dlp`, FFmpeg). It combines a YouTube/SoundCloud media downloader with a tag editor and DJ library organizer covering BPM and Camelot key analysis, file renaming, and Rekordbox XML, M3U8, and CSV export. The repository also lists a live site at tvr-dl.vercel.app. The visible GitHub owner is `VR6c`; nothing was executed, so runtime behavior is unverified.
+
+Sources: [Repository](https://github.com/VR6c/Downloader), [README](https://github.com/VR6c/Downloader/blob/main/README.md).

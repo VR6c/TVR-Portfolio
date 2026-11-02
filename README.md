@@ -1,6 +1,6 @@
 # Thary Vireak — QA Command Center
 
-A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, Vite, and Lucide React. It presents QA case studies, public project repositories, academic lab work, and a contact section.
+A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, Vite, and Lucide React. It presents QA case studies, public project repositories and a contact section.
 
 ## Sections
 
@@ -8,8 +8,7 @@ A single-page QA Engineer portfolio built with React, TypeScript, Tailwind CSS, 
 |---|---------|---------------|
 | – | Hero | Profile, headline metrics (animated count-up), release-readiness console |
 | 01 | Work | QA case-study explorer and linked public GitHub repositories |
-| 02 | SETEC Lab | Academic capstone, SRS / acceptance-criteria showcase, lab architecture |
-| 03 | About | Experience, skills, CV download, and contact (email and Telegram) |
+| 02 | About | Experience, skills, CV download, and contact (email and Telegram) |
 
 ## Features
 

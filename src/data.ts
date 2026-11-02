@@ -1,31 +1,68 @@
-export const skills = [
-  'Functional & regression testing',
-  'iOS TestFlight verification',
-  'Boundary value analysis',
-  'Equivalence partitioning',
-  'Defect lifecycle & triage',
-  'Requirements traceability',
-  'Mobile interrupt testing',
-  'REST API validation · Postman',
+export const experience = [
+  {
+    id: 'checkinme',
+    role: 'Quality Assurance Engineer',
+    org: 'CheckinMe',
+    meta: ['MOBILE & WEB PLATFORM', 'CURRENT'],
+    summary: 'Managing quality across Development, iOS TestFlight, and Production for BenefitMe, AI Mentor, Employee Analysis, and push notifications.',
+    pipeline: [
+      { stage: 'Development', detail: 'API payload verification, database state checks, and feature validation alongside developers.' },
+      { stage: 'iOS TestFlight', detail: 'Functional, interrupt, and regression testing across foreground, background, and locked device states, including the push notification migration.' },
+      { stage: 'Production', detail: 'Post-deployment smoke testing, hotfix verification, and release-readiness sign-off.' },
+    ],
+    tags: ['TestFlight', 'Regression', 'API testing', 'Push notifications'],
+    active: true,
+  },
+  {
+    id: 'setec',
+    role: 'B.Sc. in Management Information Systems (MIS)',
+    org: 'SETEC Institute',
+    meta: ['GROUP SU20', 'COMPLETED'],
+    summary: 'Completed a 16-week internship and weekly report booklet, defended an academic thesis, and worked on full-stack SRS architecture.',
+    pipeline: [],
+    tags: ['16-week internship', 'Thesis', 'SRS'],
+    active: false,
+  },
 ];
 
-export const stack = ['Laravel', 'React', 'React Native', 'Python', 'FastAPI', 'OpenCV', 'YOLOv8', 'Tailwind CSS', 'MongoDB', 'MySQL', 'VirtualBox / VMware Workstation', 'MikroTik CHR'];
+export const skillGroups = [
+  {
+    id: 'frontend', title: 'Frontend & Mobile', tone: 'mint',
+    items: ['React.js', 'React Native', 'Flutter · Dart', 'Tailwind CSS', 'TypeScript', 'Responsive UI'],
+  },
+  {
+    id: 'backend', title: 'Backend & APIs', tone: 'blue',
+    items: ['Laravel', 'Python', 'FastAPI', 'REST APIs', 'OpenCV · YOLOv8', 'Telegram Bot API'],
+  },
+  {
+    id: 'qa', title: 'QA & Release Pipeline', tone: 'violet',
+    items: ['Dev → TestFlight → Prod validation', 'Functional & regression testing', 'Smoke & hotfix verification', 'Boundary value analysis', 'Mobile interrupt testing', 'API testing', 'Test case & defect documentation'],
+  },
+  {
+    id: 'devops', title: 'DevOps & Databases', tone: 'amber',
+    items: ['Docker & Compose', 'AWS EC2', 'MySQL', 'MongoDB'],
+  },
+];
 
 export const projects = [
   {
     id: 'mobile',
+    stack: ['Local / Dev branch', 'iOS TestFlight staging', 'Live Production'],
+    engineering: 'Early-stage API payload verification and database state checks alongside developers, then TestFlight functional, interrupt, and regression testing, and finally live smoke testing, hotfix verification, and release sign-off.',
     index: '01',
     label: 'Mobile · TestFlight',
     title: 'HR & Attendance App',
-    product: 'CheckinMe · iOS v2.5.5 → v2.5.7',
-    description: 'End-to-end verification of employee benefits, learning, analytics, and a Firebase notification migration across production-bound iOS builds.',
-    scope: ['BenefitMe rewards', 'AI Mentor', 'Employee Analysis', 'Firebase push migration'],
+    product: 'CheckinMe · iOS TestFlight',
+    description: 'End-to-end verification of employee benefits, learning, analytics, and a push notification migration across production-bound iOS builds.',
+    scope: ['BenefitMe rewards', 'AI Mentor', 'Employee Analysis', 'Push notification migration'],
     highlight: 'Interrupted the app at the moments that matter: backgrounded, foregrounded, and locked. Signed off regression builds and re-verified hotfixes.',
     accent: 'mint',
     metric: '03 builds',
   },
   {
     id: 'reports',
+    stack: ['React.js', 'Canvas dashboard', 'Report generator'],
+    engineering: 'A personal task manager scoped strictly to owner tasks (“Manage Only Owner Task”) with an automated monthly report generator. Cross-month deduplication keeps a task exported in June’s report out of July’s.',
     index: '02',
     label: 'Rules · Reporting',
     title: 'Task & Monthly Reports',
@@ -38,6 +75,8 @@ export const projects = [
   },
   {
     id: 'music',
+    stack: ['Laravel REST API', 'React.js SPA', 'Tailwind CSS', 'MySQL'],
+    engineering: 'Dedicated Producer entity management, audio metadata workflows, and a multi-tier subscription billing engine supporting 1-Week, 1-Month, and 1-Year plans.',
     index: '03',
     label: 'Shift-left · SRS',
     title: 'Music Platform',
@@ -50,6 +89,8 @@ export const projects = [
   },
   {
     id: 'anpr',
+    stack: ['Python', 'FastAPI', 'OpenCV', 'YOLOv8', 'Telegram Bot API'],
+    engineering: 'Automated license plate recognition that detects plates from camera feeds, reconciles service records in FastAPI, and triggers instant Telegram Bot notifications.',
     index: '04',
     label: 'Vision · ANPR',
     title: 'ANPR Car Wash',
@@ -59,18 +100,6 @@ export const projects = [
     highlight: 'Keep uncertain plate reads out of automatic acceptance: return a safe fallback, flag manual review, and verify the notification handoff.',
     accent: 'blue',
     metric: '0.65 review gate',
-  },
-  {
-    id: 'lab',
-    index: '05',
-    label: 'Network · QA Lab',
-    title: 'VPN & Network Lab',
-    product: 'SETEC Institute · MikroTik CHR',
-    description: 'Built isolated validation nodes and reproducible test environments for operating-system and network-tunnel validation checks.',
-    scope: ['VirtualBox + VMware Workstation', 'Windows 10 · macOS · Linux', 'L2TP · PPTP · Site-to-Site IPsec', 'DNS & Domain Setup · reak.edu'],
-    highlight: 'Validate tunnel handshake, encryption policy, and packet routing between virtual routers; keep the multi-OS test environment isolated and locally addressable.',
-    accent: 'violet',
-    metric: 'Multi-OS & VPN',
   },
 ];
 
@@ -123,5 +152,12 @@ export const githubProjects: RepositoryProject[] = [
     summary: 'A Telegram-based staff ordering flow paired with a web admin dashboard for staff and manual orders, plus branch-filtered reporting.',
     tags: ['Telegram bot', 'Admin dashboard', 'Branch reports'],
     url: 'https://github.com/Phanit009/Order_Lunch', accent: 'mint',
+  },
+  {
+    id: 'downloader', repository: 'Downloader', owner: 'VR6c',
+    title: 'TVR Studio desktop suite', stack: 'Electron · React 19 · TypeScript · Python (yt-dlp, FFmpeg)',
+    summary: 'A macOS and Windows desktop app that pairs a YouTube/SoundCloud media downloader with a tag editor for organizing DJ libraries, including BPM and key analysis and Rekordbox export.',
+    tags: ['Desktop app', 'Media downloader', 'Tag editor'],
+    url: 'https://github.com/VR6c/Downloader', accent: 'violet',
   },
 ];

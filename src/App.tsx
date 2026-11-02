@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   Activity, ArrowDownRight, ArrowRight, ArrowUpRight, BellRing, BriefcaseBusiness,
-  Bug, Check, CheckCheck, ChevronRight, Clock3, Code2,
-  Copy, Download, ExternalLink, FileCheck2, Fingerprint, FlaskConical, GitBranch,
-  GraduationCap, Globe, Layers3, MapPin, Menu, ShieldCheck, Smartphone,
+  Bug, Check, CheckCheck, ChevronRight, Code2,
+  Copy, Download, ExternalLink, Fingerprint, FlaskConical, GitBranch,
+  GraduationCap, Layers3, MapPin, Menu, Server, ShieldCheck, Smartphone,
   X,
 } from 'lucide-react';
-import { githubProjects, projects, skills, stack } from './data';
+import { experience, githubProjects, projects, skillGroups } from './data';
 
 const navItems = [
-  ['Work', '#work'], ['Academic Experience', '#academic-experience'], ['About', '#about'],
+  ['Work', '#work'], ['About', '#about'],
 ] as const;
 
 function useScrollReveals() {
@@ -288,10 +288,10 @@ function Header() {
 
 function Hero() {
   const metrics = [
-    { value: '3+', label: 'Production & TestFlight builds', note: 'v2.5.5 · v2.5.6 · v2.5.7', icon: Smartphone, color: 'mint' },
+    { value: '3+', label: 'Production & TestFlight builds', note: 'Dev → TestFlight → Prod', icon: Smartphone, color: 'mint' },
     { value: '150+', label: 'Structured test cases', note: 'Designed & executed', icon: FlaskConical, color: 'blue' },
     { value: '98%', label: 'First-triage reproducibility', note: 'Evidence-backed reports', icon: Bug, color: 'violet' },
-    { value: 'Full-stack', label: 'Gray-box debugging', note: 'UI · REST · Database', icon: Layers3, color: 'amber' },
+    { value: 'Full-stack', label: 'UI · API · Database testing', note: 'Web · Mobile · Backend', icon: Layers3, color: 'amber' },
   ];
   return (
     <section className="hero section-wrap" id="top">
@@ -317,12 +317,12 @@ function Hero() {
         </div>
         <div className="hero-console reveal" style={{ transitionDelay: '130ms' }}>
           <div className="console-top"><div className="console-title"><span className="console-icon"><ShieldCheck size={15} /></span>Release readiness</div><span className="live-label"><span className="pulse-dot" /> LIVE</span></div>
-          <div className="console-build"><span>ACTIVE SIGN-OFF</span><strong>iOS / 2.5.7</strong><span className="build-check"><Check size={13} /> VERIFIED</span></div>
+          <div className="console-build"><span>ACTIVE SIGN-OFF</span><strong>iOS / TestFlight</strong><span className="build-check"><Check size={13} /> VERIFIED</span></div>
           <div className="readiness-meter"><span style={{ width: '92%' }} /></div>
           <div className="console-stats"><div><span>Build checks</span><strong>24 <small>/ 24</small></strong></div><div><span>Regression</span><strong>100<small>%</small></strong></div><div><span>Open blockers</span><strong className="text-mint">00</strong></div></div>
           <div className="console-divider" />
           <div className="console-activity"><div className="activity-icon"><CheckCheck size={14} /></div><div><strong>Hotfix verified</strong><span>BenefitMe · redemption flow</span></div><time>2h ago</time></div>
-          <div className="console-activity"><div className="activity-icon activity-icon-blue"><BellRing size={14} /></div><div><strong>Push migration signed off</strong><span>Firebase · iOS lifecycle</span></div><time>1d ago</time></div>
+          <div className="console-activity"><div className="activity-icon activity-icon-blue"><BellRing size={14} /></div><div><strong>Push migration signed off</strong><span>Notifications · iOS lifecycle</span></div><time>1d ago</time></div>
           <div className="console-foot"><span>RELEASE CHANNEL</span><span className="mono">production-candidate <ArrowUpRight size={11} /></span></div>
         </div>
       </div>
@@ -345,6 +345,7 @@ function SectionHeading({ kicker, title, description, number }: { kicker: string
 
 function ProjectExplorer() {
   const [active, setActive] = useState(projects[0].id);
+  const [view, setView] = useState<'arch' | 'qa'>('qa');
   const project = projects.find((item) => item.id === active) ?? projects[0];
   return (
     <section className="section-wrap content-section" id="work">
@@ -356,9 +357,24 @@ function ProjectExplorer() {
         <article className={`project-detail project-${project.accent}`} key={project.id}>
           <div className="project-detail-top"><div><span className="project-type">{project.label}</span><div className="project-title-row"><h3>{project.title}</h3><span className="project-metric">{project.metric}</span></div><p className="project-product">{project.product}</p></div><div className="project-stamp"><GitBranch size={15} /><span>CASE</span><strong>{project.index}</strong></div></div>
           <p className="project-description">{project.description}</p>
-          <div className="scope-label"><span>VALIDATION SCOPE</span><span className="scope-line" /></div>
-          <div className="scope-tags">{project.scope.map((item) => <span key={item}><Check size={12} />{item}</span>)}</div>
-          <div className="project-highlight"><span className="highlight-icon"><Fingerprint size={15} /></span><div><small>TESTING HIGHLIGHT</small><p>{project.highlight}</p></div></div>
+          <div className="detail-tabs" role="tablist" aria-label={`${project.title} views`}>
+            {([['arch', 'Architecture & Code', Code2], ['qa', 'QA & Validation Rules', ShieldCheck]] as const).map(([key, label, Icon]) => (
+              <button key={key} role="tab" aria-selected={view === key} className={view === key ? 'detail-tab active' : 'detail-tab'} onClick={() => setView(key)}><Icon size={14} />{label}</button>
+            ))}
+          </div>
+          {view === 'arch' ? (
+            <div className="detail-pane" key="arch">
+              <div className="scope-label"><span>{project.id === 'mobile' ? 'ENVIRONMENTS COVERED' : 'TECH STACK'}</span><span className="scope-line" /></div>
+              <div className="scope-tags stack-tags">{project.stack.map((item) => <span key={item}><Code2 size={12} />{item}</span>)}</div>
+              <div className="project-highlight"><span className="highlight-icon"><Layers3 size={15} /></span><div><small>ENGINEERING HIGHLIGHT</small><p>{project.engineering}</p></div></div>
+            </div>
+          ) : (
+            <div className="detail-pane" key="qa">
+              <div className="scope-label"><span>VALIDATION SCOPE</span><span className="scope-line" /></div>
+              <div className="scope-tags">{project.scope.map((item) => <span key={item}><Check size={12} />{item}</span>)}</div>
+              <div className="project-highlight"><span className="highlight-icon"><Fingerprint size={15} /></span><div><small>TESTING HIGHLIGHT</small><p>{project.highlight}</p></div></div>
+            </div>
+          )}
         </article>
       </div>
       <div className="repo-section">
@@ -388,82 +404,7 @@ function ProjectExplorer() {
   );
 }
 
-function AcademicCapstone() {
-  return (
-    <section className="section-wrap content-section academic-section" id="academic-experience">
-      <SectionHeading number="02" kicker="SETEC INSTITUTE · MIS GROUP SU20" title="Academic Capstone, SRS & Lab Validation" description="A documented academic foundation in shift-left requirements work, system validation, and repeatable test environments." />
-      <div className="academic-layout">
-        <article className="academic-card academic-milestone reveal">
-          <div className="academic-card-heading">
-            <span className="academic-card-icon"><GraduationCap size={17} /></span>
-            <div className="academic-card-title"><span className="academic-card-kicker">SETEC INSTITUTE · GROUP SU20</span><h3>16-Week Internship & Thesis Milestone</h3></div>
-            <span className="academic-status"><Check size={12} /> COMPLETED</span>
-          </div>
-          <p>Completed the 16-week structured internship, maintained a weekly technical reporting booklet, and completed the final MIS bachelor’s thesis.</p>
-          <div className="academic-value-grid">
-            <div><small>WEEKLY REPORTING</small><strong>Structured technical reporting booklet</strong></div>
-            <div><small>ACADEMIC MILESTONE</small><strong>Final MIS bachelor’s thesis</strong></div>
-            <div><small>DELIVERY PRACTICE</small><strong>Documentation · traceability · milestone tracking</strong></div>
-          </div>
-        </article>
-
-        <div className="academic-subheading reveal">
-          <div><span className="academic-card-kicker">SHIFT-LEFT QA · STATIC ANALYSIS</span><h3>SRS & Acceptance Criteria Showcase</h3></div>
-          <span>REQUIREMENTS VERIFIED BEFORE IMPLEMENTATION</span>
-        </div>
-
-        <div className="academic-srs-grid">
-          <article className="academic-card academic-srs-card reveal">
-            <div className="academic-card-heading">
-              <span className="academic-card-icon"><FileCheck2 size={16} /></span>
-              <div className="academic-card-title"><span className="academic-card-kicker">SRS · SHIFT-LEFT QA</span><h3>Full-Stack Music Platform</h3><small>Laravel API + React SPA</small></div>
-            </div>
-            <div className="academic-focus"><strong>QA FOCUS</strong><p>Verify documented requirements and acceptance criteria before code implementation through static analysis.</p></div>
-            <ul className="academic-list">
-              <li>Check Producer-profile entity data integrity across profile workflows.</li>
-              <li>Map subscription-state transitions for `1-Week`, `1-Month`, and `1-Year` plans.</li>
-              <li>Define expiration boundaries, renewal triggers, and unauthorized blocks on premium downloads.</li>
-            </ul>
-          </article>
-
-          <article className="academic-card academic-srs-card reveal">
-            <div className="academic-card-heading">
-              <span className="academic-card-icon academic-icon-blue"><Fingerprint size={16} /></span>
-              <div className="academic-card-title"><span className="academic-card-kicker">SRS · VISION + NOTIFICATION FLOW</span><h3>ANPR Car Wash Management</h3><small>FastAPI + OpenCV + YOLOv8 + Telegram Bot</small></div>
-            </div>
-            <div className="academic-focus academic-focus-blue"><strong>QA FOCUS</strong><p>Exercise OCR edge cases and verify the recognition-to-notification handoff for real-time service alerts.</p></div>
-            <ul className="academic-list academic-list-blue">
-              <li>Probe blurry or angled plates and changing lighting conditions for OCR accuracy.</li>
-              <li>At confidence below <code>0.65</code>, require a graceful fallback and manual-review flag.</li>
-              <li>Verify Telegram Bot webhook reliability for real-time service notifications.</li>
-            </ul>
-          </article>
-        </div>
-
-        <article className="academic-card academic-lab-card reveal">
-          <div className="academic-card-heading">
-            <span className="academic-card-icon academic-icon-violet"><Layers3 size={16} /></span>
-            <div className="academic-card-title"><span className="academic-card-kicker">ISOLATED · REPEATABLE · NETWORK-AWARE</span><h3>Test Environment & Lab Architecture</h3></div>
-          </div>
-          <div className="lab-architecture-grid">
-            <div className="lab-architecture-item">
-              <span className="lab-item-icon"><Layers3 size={15} /></span><h4>Virtualization</h4>
-              <p>Set up isolated QA nodes in VirtualBox and VMware Workstation, running Windows 10, macOS, and Linux test environments.</p>
-            </div>
-            <div className="lab-architecture-item">
-              <span className="lab-item-icon lab-item-icon-blue"><ShieldCheck size={15} /></span><h4>Network & VPN testing</h4>
-              <p>Validate L2TP, PPTP, and Site-to-Site IPsec tunnels on MikroTik CHR virtual routers: handshake, encryption policies, and packet routing.</p>
-            </div>
-            <div className="lab-architecture-item">
-              <span className="lab-item-icon lab-item-icon-violet"><Globe size={15} /></span><h4>Local DNS & Domain Routing</h4>
-              <p>Configure and verify local test domain resolution and routing for <code>reak.edu</code> across virtualized test client environments.</p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-  );
-}
+const skillIcons: Record<string, typeof Smartphone> = { frontend: Smartphone, backend: Server, qa: ShieldCheck, devops: Layers3 };
 
 function About() {
   const [copied, setCopied] = useState(false);
@@ -478,8 +419,25 @@ function About() {
   };
   return (
     <section className="section-wrap content-section about-section" id="about">
-      <SectionHeading number="03" kicker="BACKGROUND / CONTACT" title="Careful by practice. Curious by design." description="A systems mindset, a documented process, and the patience to follow a defect until it is understood." />
-      <div className="about-grid reveal"><div className="timeline-panel"><div className="panel-heading"><span className="panel-icon"><BriefcaseBusiness size={15} /></span><div><span className="table-kicker">EXPERIENCE & EDUCATION</span><h3>What I bring to the team</h3></div></div><div className="timeline"><article className="timeline-item"><span className="timeline-node node-active"><BriefcaseBusiness size={13} /></span><div className="timeline-content"><div className="timeline-meta"><span>QA ENGINEER</span><span>PRODUCT DELIVERY</span></div><h4>CheckinMe</h4><p>Mobile, web, and API manual testing across HR, attendance, employee benefits, and push notifications. Build regression, defect triage, and release sign-off.</p><div className="timeline-tags"><span>TestFlight</span><span>Regression</span><span>Postman</span></div></div></article><article className="timeline-item"><span className="timeline-node"><GraduationCap size={14} /></span><div className="timeline-content"><div className="timeline-meta"><span>BACHELOR’S DEGREE</span><span>GROUP SU20</span></div><h4>SETEC Institute</h4><p>Bachelor of Management Information Systems (MIS). Completed a 16-week internship and academic thesis.</p><div className="timeline-tags"><span>Information systems</span><span>16-week internship</span></div></div></article></div><div className="skills-section"><span className="field-label">CORE QA PRACTICE</span><div className="skill-chips">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div><span className="field-label stack-label">TECHNICAL FLUENCY</span><div className="stack-list">{stack.map((item) => <span key={item}>{item}</span>)}</div></div></div>
+      <SectionHeading number="02" kicker="EXPERIENCE / KNOWLEDGE / CONTACT" title="Careful by practice. Curious by design." description="A systems mindset, a documented process, and the patience to follow a defect until it is understood." />
+      <div className="about-grid reveal"><div className="timeline-panel"><div className="panel-heading"><span className="panel-icon"><BriefcaseBusiness size={15} /></span><div><span className="table-kicker">EXPERIENCE & EDUCATION</span><h3>What I bring to the team</h3></div></div>
+          <div className="timeline">{experience.map((item) => (
+            <article className="timeline-item" key={item.id}>
+              <span className={item.active ? 'timeline-node node-active' : 'timeline-node'}>{item.id === 'setec' ? <GraduationCap size={14} /> : <BriefcaseBusiness size={13} />}</span>
+              <div className="timeline-content">
+                <div className="timeline-meta">{item.meta.map((m) => <span key={m}>{m}</span>)}</div>
+                <h4>{item.org}</h4><span className="timeline-role">{item.role}</span>
+                <p>{item.summary}</p>
+                {item.pipeline.length > 0 && <ol className="env-pipeline">{item.pipeline.map((step, index) => <li key={step.stage}><span className="env-step"><b>{String(index + 1).padStart(2, '0')}</b>{step.stage}</span><p>{step.detail}</p></li>)}</ol>}
+                <div className="timeline-tags">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+              </div>
+            </article>
+          ))}</div>
+          <div className="skills-section"><span className="field-label">KNOWLEDGE & TECHNICAL STACK</span>
+            <div className="skill-matrix">{skillGroups.map((group) => { const Icon = skillIcons[group.id]; return (
+              <div className={`skill-group tone-${group.tone}`} key={group.id}><h5><Icon size={14} />{group.title}</h5><div className="skill-badges">{group.items.map((item) => <span key={item}>{item}</span>)}</div></div>
+            ); })}</div>
+          </div></div>
         <aside className="contact-panel"><div className="contact-topline"><span className="contact-orbit"><span /></span><span className="table-kicker">DIRECT LINE</span><span className="contact-availability"><span className="pulse-dot" />OPEN TO WORK</span></div><h3>Let’s make the<br /><span>next release</span> reliable.</h3><p>If you’re building a product that deserves a closer look, I’d like to help test it.</p><a className="contact-email" href="mailto:tharyvireak161@gmail.com">tharyvireak161@gmail.com <ArrowUpRight size={14} /></a><button className="copy-email" onClick={() => void copyEmail()}>{copied ? <Check size={13} /> : <Copy size={13} />}{copied ? 'Email copied' : 'Copy email address'}</button><div className="contact-facts"><span><Smartphone size={13} />071 675 5350</span><span><MapPin size={13} />Phnom Penh, Cambodia</span></div><div className="contact-actions"><a className="button button-primary" href="https://t.me/reak6c" target="_blank" rel="noopener noreferrer">Start a conversation <ArrowUpRight size={15} /></a><a className="button button-outline" href="/Thary_Vireak_CV.pdf" download="Thary_Vireak_CV.pdf"><Download size={14} />Download CV</a></div><small className="download-note">Full CV in PDF format.</small></aside></div>
     </section>
   );
@@ -493,5 +451,5 @@ export default function App() {
   useScrollReveals();
   usePageProgress();
   usePointerEffects();
-  return <><AnimatedBackground /><div className="cursor-glow" aria-hidden="true" /><Header /><main><Hero /><ProjectExplorer /><AcademicCapstone /><About /></main><Footer /></>;
+  return <><AnimatedBackground /><div className="cursor-glow" aria-hidden="true" /><Header /><main><Hero /><ProjectExplorer /><About /></main><Footer /></>;
 }

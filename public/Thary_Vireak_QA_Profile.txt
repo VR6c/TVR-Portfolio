@@ -6,7 +6,7 @@ PROFILE
 QA Engineer focused on manual validation of mobile, web, and API workflows. Experienced in iOS TestFlight build verification, functional and regression testing, mobile interruption scenarios, defect triage, and requirements traceability. Brings gray-box familiarity across UI, REST APIs, and databases.
 
 SELECTED QA OUTCOMES
-• Validated CheckinMe iOS TestFlight builds v2.5.5, v2.5.6, and v2.5.7.
+• Validated CheckinMe iOS TestFlight builds.
 • Designed and executed 150+ structured test cases.
 • Achieved a 98% first-triage bug reproducibility rate.
 • Tested BenefitMe, AI Mentor, Employee Analysis, and Firebase push notification migration.
@@ -17,7 +17,7 @@ QA PRACTICE
 Functional & regression testing · iOS TestFlight verification · Boundary value analysis · Equivalence partitioning · Defect lifecycle & bug triage · Requirements traceability matrix · Mobile interrupt testing · REST API validation with Postman
 
 TECHNICAL FAMILIARITY
-Laravel · React · React Native · Python · FastAPI · OpenCV · YOLOv8 · Tailwind CSS · MongoDB · MySQL · VirtualBox / VMware · MikroTik CHR
+Laravel · React · React Native · Python · FastAPI · OpenCV · YOLOv8 · Tailwind CSS · MongoDB · MySQL
 
 EDUCATION
 Bachelor of Management Information Systems (MIS)
